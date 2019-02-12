@@ -1,0 +1,5 @@
+package unit
+
+class TaskQueueAkkaTest {
+
+}

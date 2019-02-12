@@ -1,0 +1,5 @@
+@(txs: Seq[PLMTransaction])
+
+@main("Archive Queue") {
+    @queue(txs, "Running Folders")
+}

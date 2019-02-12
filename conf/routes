@@ -1,0 +1,36 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /                                       controllers.HomeController.index
+GET     /:id                                    controllers.HomeController.showDetail(id: String)
+GET     /showLogForEvent/:id                    controllers.HomeController.showLogForEvent(id: String)
+
+# A transaction queue monitor
+GET     /queue/list                             controllers.ESTransactionQueueController.listTransactions
+GET     /queue/recover                          controllers.ESTransactionQueueController.recoverTransaction(id: String)
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file                           controllers.Assets.versioned(path="/public", file: Asset)
+
+POST    /jsonArchive                            controllers.RunController.jsonArchive
+
+# Audit controller
+POST    /auditFetch                             controllers.AuditController.fetch
+POST    /auditFilter                            controllers.AuditController.filter
+
+# Record controller
+GET    /flim/checkBam                           controllers.RecordController.checkBam(accessionid: String ?= "", captureset: String ?= "")
+
+# Archive Queue Controller
+GET     /tool/archiveQueue                      controllers.ArchiveQueueController.index
+GET     /tool/archive/:id                       controllers.ArchiveQueueController.archive(id: String)
+GET     /tool/forceArchive/:id                  controllers.ArchiveQueueController.forceArchive(id: String)
+
+# Log controller
+POST    /logTrace                               controllers.LogTraceController.trace
+GET     /log/traceWithToken                     controllers.LogTraceController.traceWithToken(token: String ?= "")
+
+# Test controller
+POST    /test                                   controllers.TestController.test

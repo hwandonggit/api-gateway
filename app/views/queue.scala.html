@@ -1,0 +1,70 @@
+@(txs: Seq[Transaction], title: String)
+@import constant.TaskStatus
+
+@displaySize(size: Double) = @{
+    val sizes = Array("Bytes", "KB", "MB", "GB", "TB")
+    var tempSize = size
+    if(tempSize == 0) tempSize = 1
+    val i = Math.floor(Math.log(tempSize) / Math.log(1024)).toInt;
+    val fileSize = (size / Math.pow(1024, i))
+    "%1.2f".format(fileSize) + " " + sizes{i};
+}
+
+@displayDate(timestamp: Long) = @{
+    ("%1$tm/%1$td/%1$tY\n%1$tH:%1$tM:%1$tS".format(timestamp * 1000L))
+}
+
+@displayBadge(status: constant.TaskStatus) = @{
+    if(status.toString == "PENDING")  Html((<p class="text-info"> Pending </p>).toString)
+    else if(status.toString ==  "DONE")  Html((<p class="text-success"> Done </p>).toString)
+    else  Html((<p class="text-danger"> Failed </p>).toString)
+}
+
+<div class="row">
+    <h2 class="col-12">@title</h2>
+    <div id="content" class="col-12">
+        <table id="table" class="table table-condensed table-hover">
+            <thead>
+                <tr>
+                    <th>ID:</th>
+                    <th>Operation:</th>
+                    <th>Status:</th>
+                    <th>Level:</th>
+                    <th>Source File:</th>
+                    <th>Destination File:</th>
+                    <th>Size:</th>
+                    <th>PLM ID:</th>
+                    <th>Data Type:</th>
+                    <th>Start Time:</th>
+                    <th>End Time:</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for(tx <- txs) {
+                <tr>
+                    <td data-title="ID">
+                        <button class="btn btn-primary btn-sm idBtn">@tx.id</button>
+                    </td>
+                    <td data-title="Operation">@tx.op</td>
+                    <td data-title="Status">@displayBadge(tx.status)</td>
+                    <td data-title="Level">@tx.proc</td>
+                    <td data-title="Source File">
+                        @tx.src
+                    </td>
+                    <td data-title="Destination File">
+                        @tx.dest
+                    </td>
+                    <!--<td data-title="File">@tx.file</td>-->
+                    <td data-title="Size"> @displaySize(tx.size)</td>
+
+                    <td data-title="PLM ID"><a class="text-primary" target="_blank" href="http://ft-hpchead.fulgent.com:9888/plmtxsdetail/@tx.ext_id">@tx.ext_id</a></td>
+                    <td data-title="Data Type">@tx.datatype</td>
+                    <td data-title="Start Time">@displayDate(tx.startAt)</td>
+                    <td data-title="End Time">@displayDate(tx.stopAt)</td>
+                </tr>
+                }
+            </tbody>
+        </table>
+        </div>
+    </fieldset>
+</div>

@@ -1,0 +1,13 @@
+.ensime*
+*~
+*.swp
+*#
+.idea/
+logs
+logs/*
+log
+log/*
+test/resource
+test/resource/*
+target
+temp

@@ -1,0 +1,133 @@
+@*
+* This template is called from the `index` template. This template
+* handles the rendering of the page header and body tags. It takes
+* two arguments, a `String` for the title of the page and an `Html`
+* object to insert into the body of the page.
+*@
+@(title: String)(content: Html)
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    @* Here's where we render the page title `String`. *@
+    <title>@title</title>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.0.0-alpha.6/materia/bootstrap.min.css"
+          integrity="sha256-GX5gfSaZ6ooauhsXhWpLi9ga3ULqCLaT6BBUmjDzCFo=" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+          integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous"/>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.16/css/jquery.dataTables.min.css"
+          integrity="sha256-YY1izqyhIj4W3iyJOaGWOpXDSwrHWFL4Nfk+W0LyCHE=" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/site.css")"/>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.13.0/umd/popper.min.js"
+            integrity="sha256-pS96pU17yq+gVu4KBQJi38VpSuKN7otMrDQprzf/DWY=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/js/bootstrap.min.js"
+            integrity="sha256-DiWJXXyq81WlPRnDfGmgYZj2aOVCKyEdJ1l+2TmDuAs=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"
+            integrity="sha256-owX7sroiO/O1a7h3a4X29A1g3QgqdNvijRQ7V5TH45M=" crossorigin="anonymous"></script>
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/knockout.mapping/2.4.1/knockout.mapping.min.js"
+            integrity="sha256-gaGobNk1cPaj0abcVmyZxUYgCPsueCJwN5i4DjC4BS0=" crossorigin="anonymous"></script>
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.16/js/jquery.dataTables.min.js"
+            integrity="sha256-qcV1wr+bn4NoBtxYqghmy1WIBvxeoe8vQlCowLG+cng=" crossorigin="anonymous"></script>
+    <script async src="@routes.Assets.versioned("javascripts/site.js")"></script>
+    </head>
+    <body>
+        <div class="container-fluid">
+            @* And here's where we render the `Html` object containing
+            * the page content. *@
+            @content
+        </div>
+        <!-- MODALS -->
+        <!-- Failure Modal -->
+        <div id="errorModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">Something went wrong.</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <h5 id="errorMessage"></h5>
+                  </div>
+            </div>
+          </div>
+        </div>
+        <!-- Transaction Details Modal -->
+        <div id="txsDetailsModal" class="modal fade details-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">Transaction <span data-bind="text: id"></span></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                   <div class="container-fluid" style="margin-bottom:1em;">
+                        <div class="row">
+                            <fieldset class="col-12">
+                                <div class="row">
+                                    <legend class="col-12">PLM Info</legend>
+                                </div>
+                                <div class="row">
+                                    <div class="col-2">PLM ID:</div>
+                                    <a class="col-3 text-primary" target="_blank" data-bind="attr:{href: 'http://ft-hpchead.fulgent.com:9888/plmtxsdetail/' + plmId()}, text: plmId"></a>
+                                    <div class="col-2">Record ID:</div>
+                                    <div class="col-3" data-bind="text: recordId">CVT-</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-2">Event ID:</div>
+                                    <a class="col-3 text-primary" target="_blank" data-bind="attr:{href: '/showLogForEvent/' + token()}, text: token"></a>
+                                    <div class="col-2">Run Directory:</div>
+                                    <div class="col-4" data-bind="text: runFolder"></div>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div class="row">
+                            <fieldset class="col-12">
+                                <div class="row">
+                                    <legend class="col-12">FLIMS Info</legend>
+                                </div>
+                                <div class="row">
+                                    <div class="col-2">Capture-Set:</div>
+                                    <div class="col-2" data-bind="text: captureSet"></div>
+                                    <div class="col-2">Panel Name:</div>
+                                    <div class="col-4" data-bind="text: panelName"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-2">Accession ID:</div>
+                                    <div class="col-2" data-bind="text: accId"></div>
+                                    <div class="col-2">Library ID:</div>
+                                    <div class="col-2" data-bind="text: libId"></div>
+                                    <div class="col-2">Test ID:</div>
+                                    <div class="col-2" data-bind="text: testId"></div>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div class="row">
+                            <fieldset class="col-12">
+                            <div class="row">
+                                    <legend class="col-12">Log</legend>
+                                </div>
+                                <div class="row">
+                                      <pre class="col-12" data-bind="text: log" style="height:15vh; overflow-y:auto;"></pre>
+                                </div>
+                             </fieldset>
+                         </div>
+                  </div>
+
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

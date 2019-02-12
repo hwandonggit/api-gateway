@@ -1,0 +1,65 @@
+@(txs: Seq[PLMTransaction], title: String)
+
+@displayStatus(archiveEnabled: Boolean, archiving: Boolean) = @{
+    if(archiveEnabled && archiving)  Html((<p class="text-info"> Archiving </p>).toString)
+    else if(archiveEnabled && !archiving)  Html((<p class="text-success"> Enabled </p>).toString)
+    else  Html((<p class="text-danger"> Disabled </p>).toString)
+}
+
+@displayHasSplited(splited: Boolean) = @{
+    if(splited)  Html((<p class="text-info"> YES </p>).toString)
+    else  Html((<p class="text-danger"> NO </p>).toString)
+}
+
+@displayExist(splited: Boolean) = @{
+    if(splited)  Html((<p class="text-info"> YES </p>).toString)
+    else  Html((<p class="text-danger"> NO </p>).toString)
+}
+
+@displayDate(timestamp: Long) = @{
+    ("%1$tm/%1$td/%1$tY\n%1$tH:%1$tM:%1$tS".format(timestamp * 1000L))
+}
+
+
+<div class="row">
+    <h2 class="col-12">@title</h2>
+    <div id="content" class="col-12">
+        <table id="table" class="table table-condensed table-hover">
+            <thead>
+            <tr>
+                <th>PID:</th>
+                <th>PARENT DIR:</th>
+                <th>RUN DIR:</th>
+                <th>DATE:</th>
+                <th>WORKFLOW:</th>
+                <th>STASUS:</th>
+                <th>ACTION:</th>
+            </tr>
+            </thead>
+            <tbody>
+            @for(tx <- txs) {
+            <tr>
+                <td data-title="PLM ID"><a class="text-primary" target="_blank" href="http://ft-hpchead.fulgent.com:9888/plmtxsdetail/@tx.ID">@tx.ID</a></td>
+                <td data-title="Parent Path">@tx.parentPath</td>
+                <td data-title="Run Folder">@tx.runFolder</td>
+                <td data-title="Date">@tx.modified()</td>
+                <td data-title="Workflow">@tx.workflow</td>
+                <td data-title="Status">@displayStatus(tx.enableArchiving, tx.isArchiving)</td>
+                <td data-title="Action">
+                    @if(tx.enableArchiving && !tx.isArchiving && !tx.archived) {
+                        <button id="@tx.ID" data-toggle="modal" data-target="#confirmationModal" data-yourparameter="@tx.ID" class="btn btn-outline-primary btn-sm">Archive</button>
+                    } else if(tx.enableArchiving && tx.isArchiving) {
+                        <button id="@tx.ID" class="btn btn-outline-secondary btn-sm">Archiving</button>
+                    } else if(tx.enableArchiving && tx.archived){
+                        <button id="@tx.ID" class="btn btn-outline-secondary btn-sm">Archived</button>
+                    } else if(!tx.enableArchiving){
+                        <button id="@tx.ID" data-toggle="modal" data-target="#invalidModal" data-yourparameter="@tx.ID" class="btn btn-outline-secondary btn-sm">Invalid</button>
+                    }
+                </td>
+            </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+    </fieldset>
+</div>
