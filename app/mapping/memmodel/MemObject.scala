@@ -10,6 +10,18 @@ trait MemObject {
   def toJson: JsValue
 }
 
+/**
+  *
+  * @param id
+  * @param variantID
+  * @param testID
+  * @param extID
+  */
+case class BioRequest(id:       Option[String] = None,
+                     variantID:   Option[String] = None,
+                     testID:      Option[String] = None,
+                     extID:       Option[String] = None)
+
 /** Pipeline information
   *
   * @param accID        accession ID
@@ -39,10 +51,20 @@ abstract class RequestObject extends MemObject {
   def toLevelInfo: LevelInfo = {
     LevelInfo()
   }
+
+  def toBioRequest: BioRequest = {
+    BioRequest()
+  }
+
 }
 
+/**
+  *
+  */
 abstract class ResponseObject extends MemObject {
   protected def ERROR_STR = "ERROR"
 
   protected def SUCCESS_STR = "SUCCESS"
+
+  // define response
 }

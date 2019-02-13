@@ -14,14 +14,11 @@ GET     /queue/recover                          controllers.ESTransactionQueueCo
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file                           controllers.Assets.versioned(path="/public", file: Asset)
 
-POST    /jsonArchive                            controllers.RunController.jsonArchive
+# POST    /jsonArchive                            controllers.RunController.jsonArchive
 
 # Audit controller
 POST    /auditFetch                             controllers.AuditController.fetch
 POST    /auditFilter                            controllers.AuditController.filter
-
-# Record controller
-GET    /flim/checkBam                           controllers.RecordController.checkBam(accessionid: String ?= "", captureset: String ?= "")
 
 # Archive Queue Controller
 GET     /tool/archiveQueue                      controllers.ArchiveQueueController.index
@@ -34,3 +31,6 @@ GET     /log/traceWithToken                     controllers.LogTraceController.t
 
 # Test controller
 POST    /test                                   controllers.TestController.test
+
+#API controller
+POST    /api/variantsValidate                   controllers.APIController.jsonVariantsValidate

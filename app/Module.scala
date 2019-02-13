@@ -34,7 +34,6 @@ class Module extends AbstractModule with AkkaGuiceSupport {
     bindActor[DiskManager]("disk-manager")
     bindActor[TaskQueue]("task-queue")
     bindActor[NotificationManager]("notification-manager")
-    bindActor[TransactionPruner]("transaction-pruner")
     bindActor[ArchiveSchelduler]("archive-schelduler")
   }
 }

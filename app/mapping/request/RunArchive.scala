@@ -4,13 +4,6 @@ import constant.DATATYPE
 import mapping.memmodel._
 import play.api.libs.json._
 
-/** Wrapped request for archiving
-  *
-  * @param runfolder
-  * @param parentPath
-  * @param user
-  * @param version
-  */
 case class RunArchive(runfolder: String,
                       ext_id: String,
                       pid: String,
@@ -24,12 +17,7 @@ case class RunArchive(runfolder: String,
 
   override def toLevelInfo: LevelInfo =
     workflow match {
-      case "completeRunSS" => LevelInfo(None, None, Some(runfolder), None, Some(DATATYPE.RUN.ARCHIVE_SAS), None, None, None, Some(ext_id))
       case "ngsRun" => LevelInfo(None, None, Some(runfolder), None, Some(DATATYPE.RUN.ARCHIVE), None, None, None, Some(ext_id))
-      case "mergeBamAccessionAnalysis" => LevelInfo(None, None, Some(runfolder), None, Some(DATATYPE.RUN.ARCHIVE), None, None, None, Some(ext_id))
-      case "mergeBamLibraryAnalysis" => LevelInfo(None, None, Some(runfolder), None, Some(DATATYPE.RUN.ARCHIVE), None, None, None, Some(ext_id))
-      case "somRun" => LevelInfo(None, None, Some(runfolder), None, Some(DATATYPE.RUN.ARCHIVE_SAS), None, None, None, Some(ext_id))
-      case "completeRunRD" => LevelInfo(None, None, Some(runfolder), None, Some(DATATYPE.RUN.ARCHIVE_SAS), None, None, None, Some(ext_id))
       case _ => LevelInfo(None, None, Some(runfolder), None, Some(DATATYPE.RUN.ARCHIVE), None, None, None, Some(ext_id))
     }
 

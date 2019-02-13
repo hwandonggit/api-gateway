@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# Source Files
+# $BIOINFX/bin expected to be defined.
+
+if [ "$#" != "3" ]
+then
+  echo ''
+  echo ''
+  echo 'Example Usage: '
+  echo ''
+  exit 1
+fi
+
+exit 0;
