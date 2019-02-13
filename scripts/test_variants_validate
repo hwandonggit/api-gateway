@@ -12,4 +12,5 @@ then
   exit 1
 fi
 
+# call external command
 exit 0;

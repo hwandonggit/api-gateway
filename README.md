@@ -28,41 +28,6 @@ redis {
   key_timeout=86400
 }
 
-```
-### 2. Oracle DB
-
-The service uses [OracleDB](https://www.oracle.com/database/index.html) to implement record.
-
-After installation, open `conf/application.conf` and modify the following lines:
-
-```script
-## JDBC Datasource
-# https://www.playframework.com/documentation/latest/JavaDatabase
-# https://www.playframework.com/documentation/latest/ScalaDatabase
-# ~~~~~
-# Once JDBC datasource is set up, you can work with several different
-# database options:
-#
-# Slick (Scala preferred option): https://www.playframework.com/documentation/latest/PlaySlick
-# JPA (Java preferred option): https://playframework.com/documentation/latest/JavaJPA
-# EBean: https://playframework.com/documentation/latest/JavaEbean
-# Anorm: https://www.playframework.com/documentation/latest/ScalaAnorm
-#
-
-db {
-  default {
-    driver=oracle.jdbc.OracleDriver
-    username="ftdev"
-    password="ftdev"
-    url = "jdbc:oracle:thin:@//ftaixsvrora:1521/ftdev01"
-    keepAliveConnection = true
-    enabled = true
-    numThreads = 10
-    connectionTimeout = 30000
-    validationTimeout = 5000
-  }
-}
-
 
 ```
 
@@ -685,7 +650,7 @@ code: 200
 
 
 ## Documentation
-ES2.0 use [javadoc](https://docs.oracle.com/javase/8/docs/technotes/tools/windows/javadoc.html) to generate a document. I order to make human readable documents, please use java document comment. To compile documents: 
+use [javadoc](https://docs.oracle.com/javase/8/docs/technotes/tools/windows/javadoc.html) to generate a document. I order to make human readable documents, please use java document comment. To compile documents:
 
 ```
 sbt doc

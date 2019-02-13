@@ -10,13 +10,13 @@ import scala.concurrent.ExecutionContext
 
 /** transaction pruner manager - operations of file system
   *
-  * @param fileUtil      form path/file name [[ESFileSystem]]
+  * @param fileUtil      form path/file name [[BioFileSystem]]
   * @param logger        log writter [[LogWriter]]
   * @param configuration [[https://www.playframework.com/documentation/2.6.x/Configuration]] the default application configure
   * @param ec            default execution context [[https://docs.scala-lang.org/overviews/core/futures.html]]
   * @return
   */
-class TransactionPruner @Inject()(fileUtil: ESFileSystem,
+class TransactionPruner @Inject()(fileUtil: BioFileSystem,
                                   logger: LogWriter,
                                   configuration: play.api.Configuration,
                                   transactionService: TransactionService,
@@ -44,7 +44,7 @@ class TransactionPruner @Inject()(fileUtil: ESFileSystem,
 }
 
 object TransactionPruner {
-  def props(fileUtil: ESFileSystem,
+  def props(fileUtil: BioFileSystem,
             logger: LogWriter,
             configuration: play.api.Configuration,
             transactionService: TransactionService,

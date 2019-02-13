@@ -1,6 +1,6 @@
 name := """bio-gateway"""
 
-version := "2.1"
+version := "0.9"
 
 lazy val root = (project in file(".")).enablePlugins(PlayScala, PlayJava, PlayEbean)
 
@@ -22,10 +22,7 @@ libraryDependencies += "redis.clients" % "jedis" % "2.9.0"
 libraryDependencies += "org.reactivemongo" %% "play2-reactivemongo" % "0.12.6-play26"
 libraryDependencies += "org.mockito" % "mockito-core" % "2.8.47"
 libraryDependencies += "com.typesafe.akka" % "akka-testkit_2.12" % "2.5.6" % "test"
-libraryDependencies += "org.apache.hadoop" % "hadoop-common" % "2.9.0"
-libraryDependencies += "org.apache.hadoop" % "hadoop-hdfs" % "2.9.0"
 libraryDependencies += "org.ocpsoft.prettytime" % "prettytime" % "1.0.8.Final"
-libraryDependencies += "com.rabbitmq" % "amqp-client" % "2.8.1"
 
 unmanagedJars in Compile ++= {
   (file("lib") ** "ojdbc7.jar").classpath

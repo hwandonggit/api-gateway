@@ -5,7 +5,7 @@ import constant._
 import javax.inject.Inject
 import play.api.inject.ApplicationLifecycle
 import services._
-import utils.file.ESFileSystem
+import utils.file.BioFileSystem
 import utils.logger.LogWriter
 
 import scala.concurrent.ExecutionContext

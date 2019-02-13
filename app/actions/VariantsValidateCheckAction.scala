@@ -30,7 +30,7 @@ class VariantsValidateCheckAction @Inject()(val parser: BodyParsers.Default,
     * @return
     */
   override def filter[A](request: ValidationRequest[A]) = Future.successful {
-    request.run match {
+    request.bioData match {
       case Some(r) => goSuccess
       case None => goFailed
     }

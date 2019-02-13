@@ -7,14 +7,13 @@ import akka.actor.ActorSystem
 import akka.pattern._
 import akka.util.Timeout
 import constant._
-import mapping.memmodel.ExpectedFilesWithinFolder
 import org.apache.commons.io.FileUtils
 import org.scalatest.mockito.MockitoSugar
 import org.scalatestplus.play._
 import play.api.Configuration
 import play.api.test.Helpers.await
 import services.TransactionService
-import utils.file.ESFileSystem
+import utils.file.BioFileSystem
 import utils.logger.LogWriter
 import utils.crypto.BearerTokenGenerator
 
@@ -32,7 +31,7 @@ class DiskManagerAkkaTest extends PlaySpec with MockitoSugar {
       implicit val system: ActorSystem = ActorSystem("MySystem")
       implicit val timeout: Timeout = Timeout(10 seconds)
 
-      val fileUtil = mock[ESFileSystem]
+      val fileUtil = mock[BioFileSystem]
       val logger = mock[LogWriter]
       val tokenMaker = mock[BearerTokenGenerator]
       val config = mock[Configuration]
@@ -59,7 +58,7 @@ class DiskManagerAkkaTest extends PlaySpec with MockitoSugar {
       implicit val system: ActorSystem = ActorSystem("MySystem")
       implicit val timeout: Timeout = Timeout(10 seconds)
 
-      val fileUtil = mock[ESFileSystem]
+      val fileUtil = mock[BioFileSystem]
       val logger = mock[LogWriter]
       val tokenMaker = mock[BearerTokenGenerator]
       val config = mock[Configuration]
@@ -88,7 +87,7 @@ class DiskManagerAkkaTest extends PlaySpec with MockitoSugar {
       implicit val system: ActorSystem = ActorSystem("MySystem")
       implicit val timeout: Timeout = Timeout(10 seconds)
 
-      val fileUtil = mock[ESFileSystem]
+      val fileUtil = mock[BioFileSystem]
       val logger = mock[LogWriter]
       val tokenMaker = mock[BearerTokenGenerator]
       val config = mock[Configuration]
@@ -121,7 +120,7 @@ class DiskManagerAkkaTest extends PlaySpec with MockitoSugar {
       implicit val system: ActorSystem = ActorSystem("MySystem")
       implicit val timeout: Timeout = Timeout(10 seconds)
 
-      val fileUtil = mock[ESFileSystem]
+      val fileUtil = mock[BioFileSystem]
       val logger = mock[LogWriter]
       val tokenMaker = mock[BearerTokenGenerator]
       val config = mock[Configuration]
@@ -151,7 +150,7 @@ class DiskManagerAkkaTest extends PlaySpec with MockitoSugar {
     implicit val system: ActorSystem = ActorSystem("MySystem")
     implicit val timeout: Timeout = Timeout(10 seconds)
 
-    val fileUtil = mock[ESFileSystem]
+    val fileUtil = mock[BioFileSystem]
     val logger = mock[LogWriter]
     val tokenMaker = mock[BearerTokenGenerator]
     val config = mock[Configuration]
@@ -217,7 +216,7 @@ class DiskManagerAkkaTest extends PlaySpec with MockitoSugar {
     implicit val system: ActorSystem = ActorSystem("MySystem")
     implicit val timeout: Timeout = Timeout(10 seconds)
 
-    val fileUtil = mock[ESFileSystem]
+    val fileUtil = mock[BioFileSystem]
     val logger = mock[LogWriter]
     val tokenMaker = mock[BearerTokenGenerator]
     val config = mock[Configuration]

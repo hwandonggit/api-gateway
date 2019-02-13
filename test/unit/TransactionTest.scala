@@ -8,8 +8,7 @@ import org.mockito.Mockito._
 import org.scalatest.mockito.MockitoSugar
 import org.scalatestplus.play._
 import play.api.inject.ApplicationLifecycle
-import services.AuditService
-import utils.file.ESFileSystem
+import utils.file.BioFileSystem
 import utils.logger.LogWriter
 
 import scala.concurrent.ExecutionContextExecutor

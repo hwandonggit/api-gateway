@@ -21,8 +21,9 @@ class APIController @Inject()(ec: ExecutionContext,
     andThen variantsValidateAction
     andThen variantsValidateCheckAction).async { request =>
     implicit val context: ExecutionContext = ec
-    (service variantsValidate request.api) map {
+    (service variantsValidate request.bioData.get) map {
       case e: Error => BadRequest(e.toJson)
+        // case other:
       case r => Ok(r.toJson)
     }
   }

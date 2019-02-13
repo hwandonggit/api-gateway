@@ -10,6 +10,9 @@ trait MemObject {
   def toJson: JsValue
 }
 
+case class BioBody(key:     String,
+                   value:   String)
+
 /**
   *
   * @param id
@@ -18,9 +21,8 @@ trait MemObject {
   * @param extID
   */
 case class BioRequest(id:       Option[String] = None,
-                     variantID:   Option[String] = None,
-                     testID:      Option[String] = None,
-                     extID:       Option[String] = None)
+                      bioBody:   Option[Seq[BioBody]] = None,
+                     extID:     Option[String] = None)
 
 /** Pipeline information
   *
@@ -53,7 +55,7 @@ abstract class RequestObject extends MemObject {
   }
 
   def toBioRequest: BioRequest = {
-    BioRequest()
+    BioRequest(None, None, None)
   }
 
 }

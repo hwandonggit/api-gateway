@@ -286,12 +286,5 @@ case class SLOT_DUPLICATE(path: String) extends SlotManagerProtocol
 case class SLOT_SYNC(path: String) extends SlotManagerProtocol
 
 
-/**
-  *  cloud uploader
-  */
-sealed trait CloudUploaderProtocol
-
-case class CLOUD_UPLOAD(originPath: String, parentPath: String, txs_id: String) extends CloudUploaderProtocol
-
 
 

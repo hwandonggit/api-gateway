@@ -7,8 +7,8 @@ import constant._
 import models.{Transaction, TransactionWrapper}
 import play.api.inject.ApplicationLifecycle
 import redis.clients.jedis._
-import services.{AuditService, TransactionService}
-import utils.file.ESFileSystem
+import services.TransactionService
+import utils.file.BioFileSystem
 import utils.logger.LogWriter
 import utils.logger.status._
 
@@ -20,11 +20,10 @@ class TransactionServiceImp @Inject()(@Named("notification-manager") notificatio
                                       lifecycle: ApplicationLifecycle,
                                       logger: LogWriter,
                                       configuration: play.api.Configuration,
-                                      auditService: AuditService,
-                                      fileUtils: ESFileSystem,
+                                      fileUtils: BioFileSystem,
                                       ec: ExecutionContext)
   extends TransactionService with TransactionWrapper {
-  implicit val fs: ESFileSystem = fileUtils
+  implicit val fs: BioFileSystem = fileUtils
   implicit val eContext: ExecutionContext = ec
 
   private lazy val pool: JedisPool = {
@@ -158,27 +157,6 @@ class TransactionServiceImp @Inject()(@Named("notification-manager") notificatio
     result
   }
 
-  /* override def updateTransactionSync(id: String, task: Transaction): Unit = {
-    var jedis: Jedis = null
-    try {
-      jedis = pool.getResource
-      task.id = id
-
-      val p = jedis.pipelined
-      p.multi
-      task.save(p)
-      p.exec()
-      p syncAndReturnAll
-    } catch {
-      case e: Exception => logError(e)
-        throw e
-    } finally {
-      if (jedis != null) {
-        jedis.close()
-      }
-    }
-  } */
-
   override def updateTransactionAsync(id: String, p: Pipeline, task: Transaction): Unit = {
     task.id = id
     task.save(p)
@@ -262,23 +240,6 @@ class TransactionServiceImp @Inject()(@Named("notification-manager") notificatio
         // update
         tx.status = status
         tx.msg = msg
-
-        val f = auditService.insertAudit(tx).recover {
-          case e: Exception =>
-            logger.write(INFO,
-              HIGH,
-              "com.fulgent.es2.sevices.AuditService",
-              e.toString,
-              tx)
-            throw e
-          case _ =>
-            logger.write(INFO,
-              HIGH,
-              "com.fulgent.es2.sevices.AuditService",
-              "audit inserted: " + tx.id,
-              tx)
-        }
-        Await.ready(f, Duration.Inf)
       }
     }
   }

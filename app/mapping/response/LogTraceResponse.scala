@@ -1,12 +1,11 @@
 package mapping.response
 
-import constant.PathInfoSeqUtils
 import mapping.memmodel.ResponseObject
 import models.Transaction
 import play.api.libs.json.{JsObject, JsValue, Json, Writes}
-import utils.file.ESFileSystem
+import utils.file.BioFileSystem
 
-case class LogTraceResponse(log: String)(implicit fs: ESFileSystem)
+case class LogTraceResponse(log: String)(implicit fs: BioFileSystem)
   extends ResponseObject {
   override def toJson: JsValue = {
     implicit val writer: Writes[LogTraceResponse] {

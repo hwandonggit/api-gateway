@@ -4,10 +4,10 @@ import akka.util._
 import constant._
 import javax.inject._
 import mapping.response.TransactionDetailResponse
-import models.{KeyReference, Transaction}
+import models.Transaction
 import play.api.cache.SyncCacheApi
 import services._
-import utils.file.ESFileSystem
+import utils.file.BioFileSystem
 import utils.logger.LogWriter
 import utils.logger.status.{DEBUG, LOW}
 
@@ -18,13 +18,13 @@ class TransactionMonitorServiceImp @Inject()(configuration: play.api.Configurati
                                              ec: ExecutionContext,
                                              cache: SyncCacheApi,
                                              transactionService: TransactionService,
-                                             fileUtil: ESFileSystem,
+                                             fileUtil: BioFileSystem,
                                              tokenMaker: utils.crypto.BearerTokenGenerator,
                                              logger: LogWriter) extends TransactionMonitorService {
 
   implicit val timeout: Timeout = 15 minutes
   implicit val context: ExecutionContext = ec
-  implicit val fs: ESFileSystem = fileUtil
+  implicit val fs: BioFileSystem = fileUtil
 
   /** Fetch the total number of transactions
     *
@@ -59,27 +59,6 @@ class TransactionMonitorServiceImp @Inject()(configuration: play.api.Configurati
     transactionService.listAllTransactionSync(0, Int.MaxValue).find(tx => tx.status == PENDING && tx.op == op)
   }
 
-  /** If archive is running or not
-    *
-    */
-  override def archiveIsRunning(): Boolean = {
-    transactionService.listAllTransactionSync(0, Int.MaxValue).exists(tx => tx.status == RUNNING && tx.op == "archive")
-  }
-
-  /** If cloud uploading is running or not
-    *
-    */
-  override def cloudUploadIsRunning(): Boolean = {
-    transactionService.listAllTransactionSync(0, Int.MaxValue).exists(tx => tx.status == RUNNING && tx.op == "cloud-upload")
-  }
-
-  /** If sample caching is running or not
-    *
-    */
-  override def sampleCachingIsRunning(): Boolean = {
-    transactionService.listAllTransactionSync(0, Int.MaxValue).exists(tx => tx.status == RUNNING && tx.op == "samplecache")
-  }
-
   /** Reflect batch of transactions accroding to the current transaction
     *
     * @param tx
@@ -87,15 +66,6 @@ class TransactionMonitorServiceImp @Inject()(configuration: play.api.Configurati
     */
   override def reflectGroupTransactions(tx: Transaction): Seq[Transaction] = {
     transactionService.listAllTransactionSync(0, Int.MaxValue).filter(t => t.status == tx.status && t.op == tx.op && t.token == tx.token)
-  }
-
-  /** How many disk has been used in the transaction queue according to the Key Reference
-    *
-    */
-  override def fetchQueuedTotalDiskUsage(key: KeyReference): Long = {
-    transactionService.listAllTransactionSync(0, Int.MaxValue)
-      .filter(tx => tx.op == "archive" && tx.referenceid == key.ID)
-      .foldLeft(0L){ (total: Long, tx: Transaction) => total + tx.size }
   }
 
   /** List all transaction in details

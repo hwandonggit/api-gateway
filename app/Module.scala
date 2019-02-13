@@ -23,16 +23,11 @@ class Module extends AbstractModule with AkkaGuiceSupport {
     bind(classOf[BootstrapService]).to(classOf[BootstrapServiceImp]).asEagerSingleton()
 
     //implementations
+    bind(classOf[APIService]).to(classOf[APIServiceImp])
     bind(classOf[RunService]).to(classOf[RunServiceImp])
-    bind(classOf[AuditService]).to(classOf[AuditServiceImp]).asEagerSingleton()
-    bind(classOf[RecordService]).to(classOf[RecordServiceImp])
-    bind(classOf[PLMTransactionService]).to(classOf[PLMTransactionServiceImp])
-    bind(classOf[LogService]).to(classOf[LogServiceImp])
     bind(classOf[TransactionMonitorService]).to(classOf[TransactionMonitorServiceImp])
 
     // actors
-    bindActor[DiskManager]("disk-manager")
-    bindActor[TaskQueue]("task-queue")
     bindActor[NotificationManager]("notification-manager")
     bindActor[ArchiveSchelduler]("archive-schelduler")
   }

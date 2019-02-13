@@ -29,7 +29,7 @@ trait JsonMapping {
   def toJsonObject(): JsObject
 }
 
-class Transaction extends RedisObject with RedisControl with AkkaProtocol with JsonMapping with PathInfoSeqUtils {
+class Transaction extends RedisObject with RedisControl with AkkaProtocol with JsonMapping {
   var file: String              = ""
   var src: String               = ""
   var dest: String              = ""

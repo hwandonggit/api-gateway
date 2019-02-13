@@ -2,16 +2,15 @@ package actions
 
 
 import javax.inject._
-import mapping.request.APIServiceRequest
+import mapping.request.APIDataValidate
 import play.api.libs.json._
 import play.api.mvc._
-import services.APIService
 import utils.logger.LogWriter
 
 import scala.concurrent._
 import scala.util.{Failure, Success, Try}
 
-class ValidationRequest[A](val api: Option[APIService], request: Request[A]) extends WrappedRequest[A](request)
+class ValidationRequest[A](val bioData: Option[APIDataValidate], request: Request[A]) extends WrappedRequest[A](request)
 
 /**
   *
@@ -24,10 +23,10 @@ class VariantsValidateAction  @Inject()(val parser: BodyParsers.Default,
   extends ActionTransformer[Request, ValidationRequest] {
   def transform[A](request: Request[A]) = Future.successful {
     val jsonBody: Option[JsValue] = request.body.asInstanceOf[AnyContent].asJson
-    implicit val reads = Json.reads[APIServiceRequest]
+    implicit val reads = Json.reads[APIDataValidate]
     jsonBody match {
       case Some(value) =>
-        Try(value.as[APIServiceRequest]) match {
+        Try(value.as[APIDataValidate]) match {
           case Success(r) => new ValidationRequest(Some(r), request)
           case Failure(e) => new ValidationRequest(None, request)
         }

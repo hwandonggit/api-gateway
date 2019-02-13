@@ -9,8 +9,8 @@ import models.Transaction
 import play.api.libs.json._
 import play.api.libs.ws.{WSClient, WSRequest, WSResponse}
 import scala.concurrent.duration._
-import services.{AuditService, TransactionService}
-import utils.file.ESFileSystem
+import services.TransactionService
+import utils.file.BioFileSystem
 import utils.logger.LogWriter
 import utils.logger.status._
 
@@ -19,18 +19,18 @@ import scala.concurrent.{Await, ExecutionContext, Future}
 /** Akka actor that watches transaction status and notify PLM
   *
   * @param ws                   http client
-  * @param fileUtils            es file system utilities [[ESFileSystem]]
+  * @param fileUtils            es file system utilities [[BioFileSystem]]
   * @param transactionService   transaction [[TransactionService]]
   * @param logger               log writer [[LogWriter]]
   * @param ec                   default execution context [[https://docs.scala-lang.org/overviews/core/futures.html]]
   */
 class NotificationManager @Inject()(
-                                    ws: WSClient,
-                                    fileUtils: ESFileSystem,
-                                    transactionService: TransactionService,
-                                    logger: LogWriter,
-                                    configuration: play.api.Configuration,
-                                    ec: ExecutionContext) extends Actor {
+                                     ws: WSClient,
+                                     fileUtils: BioFileSystem,
+                                     transactionService: TransactionService,
+                                     logger: LogWriter,
+                                     configuration: play.api.Configuration,
+                                     ec: ExecutionContext) extends Actor {
   implicit val eContext: ExecutionContext = ec
 
   override def receive: Receive = {

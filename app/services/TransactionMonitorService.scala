@@ -1,7 +1,7 @@
 package services
 
 import constant.TaskStatus
-import models.{KeyReference, Transaction}
+import models.Transaction
 import mapping.response.TransactionDetailResponse
 
 trait TransactionMonitorService {
@@ -38,25 +38,6 @@ trait TransactionMonitorService {
     */
   def reflectGroupTransactions(tx: Transaction): Seq[Transaction]
 
-  /** If archive is running or not
-    *
-    */
-  def archiveIsRunning(): Boolean
-
-  /** If cloud uploading is running or not
-    *
-    */
-  def cloudUploadIsRunning(): Boolean
-
-  /** If sample caching is running or not
-    *
-    */
-  def sampleCachingIsRunning(): Boolean
-
-  /** How many disk has been used in the transaction queue according to the Key Reference
-    *
-    */
-  def fetchQueuedTotalDiskUsage(key: KeyReference): Long
 
   /** List all transaction in details
     *
